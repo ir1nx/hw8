@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Homework8
+﻿namespace Homework8
 {
     public class AgileLinkedList<T>
     {
@@ -167,6 +165,32 @@ namespace Homework8
                 First.Prev = null;
             }
         }
+
+        public void Reverse()
+        {
+
+            if (IsPalindorom()) return;
+
+            Node<T> current = First;
+            Node<T> prev = null, next = null;
+
+            while (current != null)
+            {
+                next = current.Next;
+                current.Next = prev;
+                current.Prev = next;
+
+                prev = current;
+                current = next;
+            }
+
+            if (prev != null)
+            {
+                Last = First;
+                First = prev;
+            }
+
+        }
         public bool IsPalindorom()
         {
             if (Count == 0 || Count == 1) return true;
@@ -180,6 +204,7 @@ namespace Homework8
                 return Traversal(first.Next, last.Prev);
             }
         }
+
 
         public void Print()
         {
@@ -211,6 +236,11 @@ namespace Homework8
             Console.WriteLine("Task4");
             lst.Print();
             lst.CircleShift(2);
+            lst.Print();
+
+            Console.WriteLine("Task5");
+            lst.Print();
+            lst.Reverse();
             lst.Print();
             
 
