@@ -2,7 +2,7 @@
 {
     public class AgileLinkedList<T>
     {
-        public Node<T> First {  get; set; }
+        public Node<T> First { get; set; }
         public Node<T> Last { get; set; }
         int Count { get; set; }
         public class Node<T>
@@ -19,18 +19,65 @@
 
         }
 
+        public AgileLinkedList(IEnumerable<T> a)
+        {
+            foreach (var item in a)
+                AddLast(item);
+        }
+
         public override string ToString()
         {
             return $"first = {First.Data} last = {Last.Data} count = {Count}";
         }
 
+        public void AddFirst(T x)
+        {
+            var p = new Node<T>(x, null, First);
+            if (First != null)
+                First.Prev = p;
+            First = p;
+            if (Last == null)
+                Last = p;
+        }
+        public void AddLast(T x)
+        {
+            var p = new Node<T>(x, Last, null);
+            if (Last != null)
+                Last.Next = p;
+            Last = p;
+            if (First == null)
+                First = p;
+        }
+
+        public bool IsPalindorom(AgileLinkedList<T> lst)
+        {
+            if (lst.Count == 0 || lst.Count == 1) return true;
+
+            return Traversal(lst.First, lst.Last);
+
+            bool Traversal(Node<T> first, Node<T> last)
+            {
+                if (!first.Data.Equals(last.Data)) return false;
+                if (first.Next == last.Prev || first == last) return true;
+                return Traversal(first.Next, last.Prev);
+            }
+        }
+
+        public void Print()
+        {
+            for (var item = First; item != null; item = item.Next)
+                Console.Write($"{item.Data} ");
+        }
     }
 
     internal class Program
     {
         static void Main()
         {
-            
+
+            var lst = new AgileLinkedList<int>([1, 2, 3, 4]);
+            lst.Print();
+
         }
     }
 }
