@@ -49,11 +49,11 @@
                 First = p;
         }
 
-        public bool IsPalindorom(AgileLinkedList<T> lst)
+        public bool IsPalindorom()
         {
-            if (lst.Count == 0 || lst.Count == 1) return true;
+            if (Count == 0 || Count == 1) return true;
 
-            return Traversal(lst.First, lst.Last);
+            return Traversal(First, Last);
 
             bool Traversal(Node<T> first, Node<T> last)
             {
@@ -67,7 +67,10 @@
         {
             for (var item = First; item != null; item = item.Next)
                 Console.Write($"{item.Data} ");
+            Console.WriteLine();
         }
+
+
     }
 
     internal class Program
@@ -75,9 +78,9 @@
         static void Main()
         {
 
-            var lst = new AgileLinkedList<int>([1, 2, 3, 4]);
+            var lst = new AgileLinkedList<int>([1, 2, 3, 2, 1]);
             lst.Print();
-
+            Console.WriteLine($"lst.IsPalindorom() -> {lst.IsPalindorom()}");
         }
     }
 }
