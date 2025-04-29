@@ -1,4 +1,6 @@
-﻿namespace Homework8
+﻿using System;
+
+namespace Homework8
 {
     public class AgileLinkedList<T>
     {
@@ -38,6 +40,8 @@
             First = p;
             if (Last == null)
                 Last = p;
+
+            Count++;
         }
         public void AddLast(T x)
         {
@@ -47,6 +51,102 @@
             Last = p;
             if (First == null)
                 First = p;
+
+            Count++;
+        }
+
+        public void RemoveFirst()
+        {
+            if (First == null)
+                throw new InvalidOperationException();
+            First = First.Next;
+            if (First == null)
+                Last = null;
+            else First.Prev = null;
+
+            Count--;
+        }
+
+        public void RemoveLast()
+        {
+            if (Last == null)
+                throw new InvalidOperationException();
+            Last = Last.Prev;
+            if (Last == null)
+                First = null;
+            else Last.Next = null;
+
+            Count--;
+        }
+
+        public void Remove(int n)
+        {
+            if (n < 0 || (Count != -1 && n >= Count))
+                throw new ArgumentOutOfRangeException();
+
+            if (First == null)
+                throw new InvalidOperationException();
+
+            if (n == 0)
+            {
+                RemoveFirst();
+                return;
+            }
+
+            if (Count != -1 && n == Count - 1)
+            {
+                RemoveLast();
+                return;
+            }
+
+            Node<T> elem = First;
+            for (int i = 0; i < n; i++)
+            {
+                elem = elem.Next;
+                if (elem == null)
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            elem.Prev.Next = elem.Next;
+            if (elem.Next != null)
+                elem.Next.Prev = elem.Prev;
+
+            if (Count != -1)
+                Count--;
+        }
+
+        public void AddBefore(int n, T x)
+        {
+            if (n < 0 || (Count != -1 && n >= Count))
+                throw new ArgumentOutOfRangeException();
+
+            if (First == null)
+                throw new InvalidOperationException();
+
+            if (n == 0)
+            {
+                AddFirst(x);
+                return;
+            }
+
+            if (Count != -1 && n == Count - 1)
+            {
+                AddLast(x);
+                return;
+            }
+
+            Node<T> elem = First;
+            for (int i = 0; i < n; i++)
+            {
+                elem = elem.Next;
+                if (elem == null)
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            elem.Next = new Node<T>(x, elem, elem.Next);
+            Count++;
+
+
         }
 
         public bool IsPalindorom()
@@ -58,7 +158,7 @@
             bool Traversal(Node<T> first, Node<T> last)
             {
                 if (!first.Data.Equals(last.Data)) return false;
-                if (first.Next == last.Prev || first == last) return true;
+                if (first.Next == last || first == last) return true;
                 return Traversal(first.Next, last.Prev);
             }
         }
@@ -77,10 +177,18 @@
     {
         static void Main()
         {
-
+            Console.WriteLine("Task2");
             var lst = new AgileLinkedList<int>([1, 2, 3, 2, 1]);
             lst.Print();
             Console.WriteLine($"lst.IsPalindorom() -> {lst.IsPalindorom()}");
+
+            Console.WriteLine("Task3");
+            lst.Print();
+            lst.Remove(2);
+            lst.Print();
+
+            lst.AddBefore(2, 7);
+            lst.Print();
         }
     }
 }
