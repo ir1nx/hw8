@@ -205,14 +205,6 @@
             }
         }
 
-        public T GetRandomElem()
-        {
-            var r = new Random();
-            var elem = First;
-            for (int i = 0; i < r.Next(Count); i++)
-                elem = elem.Next;
-            return elem.Data;
-        }
 
         public void Print()
         {
@@ -250,9 +242,7 @@
             lst.Print();
             lst.Reverse();
             lst.Print();
-
-            Console.WriteLine("Task6");
-            Console.WriteLine(lst.GetRandomElem());
+            
 
         }
     }
