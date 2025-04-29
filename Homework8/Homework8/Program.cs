@@ -148,7 +148,25 @@ namespace Homework8
 
 
         }
+        public void CircleShift(int n)
+        {
+            if (First == null || First == Last || n == 0)
+                return;
 
+            n = n % Count;
+            for (int i = 0; i < n; i++)
+            {
+                Node<T> newFirst = First.Next;
+
+                Last.Next = First;
+                First.Prev = Last;
+                First.Next = null;
+
+                Last = First;
+                First = newFirst;
+                First.Prev = null;
+            }
+        }
         public bool IsPalindorom()
         {
             if (Count == 0 || Count == 1) return true;
@@ -189,6 +207,13 @@ namespace Homework8
 
             lst.AddBefore(2, 7);
             lst.Print();
+
+            Console.WriteLine("Task4");
+            lst.Print();
+            lst.CircleShift(2);
+            lst.Print();
+            
+
         }
     }
 }
